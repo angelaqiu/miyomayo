@@ -19,7 +19,7 @@ limitations under the License.
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".GooglePlayServicesActivity"
-    android:background="#cde7ff">
+    android:background="#c6ebfa">
 
     <!--<ScrollView-->
         <!--android:layout_width="wrap_content"-->
@@ -34,9 +34,11 @@ limitations under the License.
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="miyomayo"
+        android:text="m i y o m a y o"
+        android:textColor="#ffffff"
         android:id="@+id/textView"
+        android:fontFamily="roboto"
+        android:textSize="40.5sp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
@@ -53,6 +55,6 @@ limitations under the License.
         android:layout_height="wrap_content"
         android:id="@+id/imageView2"
         android:layout_below="@+id/imageView"
-        android:src="@drawable/earth" />
+        android:src="@drawable/earth2" />
 
 </RelativeLayout>
