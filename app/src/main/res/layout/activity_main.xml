@@ -73,23 +73,32 @@ limitations under the License.
 
     <RelativeLayout
     android:id="@+id/rlv1"
-    android:layout_width="250dp"
-    android:layout_height="30dp"
+    android:layout_width="110dp"
+    android:layout_height="20dp"
     android:backgroundTint="#f1f1f1"
-    android:layout_marginLeft="50dip"
+    android:layout_marginLeft="120dip"
     android:layout_below="@+id/imageView"
     android:layout_marginTop="40dip"
     android:background="@drawable/rectangle" />
 
     <RelativeLayout
         android:id="@+id/healthbar"
-        android:layout_width="120dp"
-        android:layout_height="20dp"
+        android:layout_width="50dp"
+        android:layout_height="10dp"
         android:backgroundTint="#428c63"
-        android:layout_marginLeft="55dip"
+        android:layout_marginLeft="125dip"
         android:layout_below="@+id/imageView"
         android:layout_marginTop="45dip"
         android:background="@drawable/rectangle" />
+
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+        <!--android:text="ow!"-->
+        <!--android:id="@+id/textView3"-->
+        <!--android:layout_alignTop="@+id/imageView"-->
+        <!--android:layout_toStartOf="@+id/imageView" />-->
 
 
 </RelativeLayout>
