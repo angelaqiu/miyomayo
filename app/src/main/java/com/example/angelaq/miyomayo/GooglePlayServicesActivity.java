@@ -27,11 +27,16 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.fitness.HistoryApi;
 import com.google.android.gms.fitness.data.DataSet;
+import com.google.android.gms.fitness.data.DataType;
+import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.fitness.request.OnDataPointListener;
 import com.google.android.gms.fitness.result.DailyTotalResult;
+
+import java.util.concurrent.TimeUnit;
 
 
 //import com.example.angelaq.miyomayo.R;
@@ -118,15 +123,25 @@ public class GooglePlayServicesActivity extends ActionBarActivity {
                                 // Put application specific code here.
                                 // [END auth_build_googleapiclient_beginning]
                                 //  What to do? Find some data sources!
-//                                PendingResult<DailyTotalResult> result = HistoryApi.readDailyTotal(mClient, TYPE_STEP_COUNT_DELTA);
-//                                DailyTotalResult totalResult = result.await(30, SECONDS);
+                                PendingResult<DailyTotalResult> result = Fitness.HistoryApi.readDailyTotal(mClient, DataType.TYPE_STEP_COUNT_DELTA);
+                                result.setResultCallback(new ResultCallback<DailyTotalResult>() {
+                                    @Override
+                                    public void onResult(DailyTotalResult dailyTotalResult) {
+                                        DataSet totalSet = dailyTotalResult.getTotal();
+                                        long total = totalSet.isEmpty()
+                                            ? 0
+                                            : totalSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
+                                      Log.d(TAG, "total number of steps: " + total);
+                                    }
+                                });
 //                                if (totalResult.getStatus().isSuccess()) {
 //                                    DataSet totalSet = totalResult.getTotal();
 //                                    long total = totalSet.isEmpty()
 //                                            ? 0
-//                                            : totalSet.getDataPoints().get(0).getValue(FIELD_STEPS).asInt();
+//                                            : totalSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
+//                                    Log.d(TAG, "total number of steps: " + total);
 //                                } else {
-//                                    // handle failure
+//                                    Log.i(TAG, "error");
 //                                }
 
                                 // [START auth_build_googleapiclient_ending]
