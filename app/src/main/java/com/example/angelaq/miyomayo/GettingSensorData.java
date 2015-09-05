@@ -29,17 +29,12 @@ public class GettingSensorData extends AppCompatActivity implements SensorEventL
     @Override
     public void onSensorChanged(SensorEvent sensorEvent){
         Sensor mySensor = sensorEvent.sensor;
-        t1=new TextToSpeech(getApplicationContext(),new TextToSpeech.onInitListener() {
+        t1=new TextToSpeech(getApplicationContext(),new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
-                super.onInit();
                 if (status != TextToSpeech.ERROR) {
                     t1.setLanguage(Locale.UK);
                 }
-            }
-            @Override
-            public void onInitListener() {
-                super.onInitListener();
             }
         });
         if (mySensor.getType() == Sensor.TYPE_ACCELEROMETER) {
