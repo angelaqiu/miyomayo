@@ -1,56 +1,64 @@
+/*
+ * Copyright (C) 2014 Google, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.example.angelaq.miyomayo;
 
-import android.app.Activity;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.content.IntentSender.SendIntentException;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
+//import com.example.angelaq.miyomayo.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
-
+import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.common.api.Status;
+//import com.google.android.gms.fit.samples.common.logger.Log;
+//import com.google.android.gms.fit.samples.common.logger.LogView;
+//import com.google.android.gms.fit.samples.common.logger.LogWrapper;
+//import com.google.android.gms.fit.samples.common.logger.MessageOnlyLogFilter;
 import com.google.android.gms.fitness.Fitness;
-import com.google.android.gms.fitness.data.Bucket;
 import com.google.android.gms.fitness.data.DataPoint;
-import com.google.android.gms.fitness.data.DataSet;
 import com.google.android.gms.fitness.data.DataSource;
 import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
-import com.google.android.gms.fitness.request.DataDeleteRequest;
-import com.google.android.gms.fitness.request.DataReadRequest;
-import com.google.android.gms.fitness.result.DataReadResult;
+import com.google.android.gms.fitness.data.Value;
+import com.google.android.gms.fitness.request.DataSourcesRequest;
+import com.google.android.gms.fitness.request.OnDataPointListener;
+import com.google.android.gms.fitness.request.SensorRequest;
+import com.google.android.gms.fitness.result.DataSourcesResult;
+
+import java.util.concurrent.TimeUnit;
 
 
-public class GooglePlayServicesActivity extends Activity implements
-        GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
-
-    private static final String TAG = "GooglePlayServicesActiv";
-
-    private static final String KEY_IN_RESOLUTION = "is_in_resolution";
-
-    /**
-     * Request code for auto Google Play Services error resolution.
-     */
-    protected static final int REQUEST_CODE_RESOLUTION = 1;
-
-    /**
-     * Google API client.
-     */
-    private GoogleApiClient mGoogleApiClient;
-
-//    /**
-//     * Determines if the client is in a resolution state, and
-//     * waiting for resolution intent to return.
-//     */
-//    private boolean mIsInResolution;
-
+/**
+ * This sample demonstrates how to use the Sensors API of the Google Fit platform to find
+ * available data sources and to register/unregister listeners to those sources. It also
+ * demonstrates how to authenticate a user with Google Play Services.
+ */
+public class GooglePlayServicesActivity extends ActionBarActivity {
+    public static final String TAG = "BasicSensorsApi";
+    // [START auth_variable_references]
     private static final int REQUEST_OAUTH = 1;
 
     /**
@@ -62,20 +70,37 @@ public class GooglePlayServicesActivity extends Activity implements
     private boolean authInProgress = false;
 
     private GoogleApiClient mClient = null;
+    // [END auth_variable_references]
 
-    /**
-     * Called when the activity is starting. Restores the activity state.
-     */
+    // [START mListener_variable_reference]
+    // Need to hold a reference to this listener, as it's passed into the "unregister"
+    // method in order to stop all sensors from sending data to this listener.
+    private OnDataPointListener mListener;
+    // [END mListener_variable_reference]
+
+
+    // [START auth_oncreate_setup_beginning]
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Put application specific code here.
+        // [END auth_oncreate_setup_beginning]
+        setContentView(R.layout.activity_main);
+        // This method sets up our custom logger, which will print all log messages to the device
+        // screen, as well as to adb logcat.
+//        initializeLogging();
+
+        // [START auth_oncreate_setup_ending]
+
         if (savedInstanceState != null) {
             authInProgress = savedInstanceState.getBoolean(AUTH_PENDING);
         }
 
         buildFitnessClient();
     }
+    // [END auth_oncreate_setup_ending]
 
+    // [START auth_build_googleapiclient_beginning]
     /**
      *  Build a {@link GoogleApiClient} that will authenticate the user and allow the application
      *  to connect to Fitness APIs. The scopes included should match the scopes your app needs
@@ -97,15 +122,20 @@ public class GooglePlayServicesActivity extends Activity implements
                                 Log.i(TAG, "Connected!!!");
                                 // Now you can make calls to the Fitness APIs.
                                 // Put application specific code here.
+                                // [END auth_build_googleapiclient_beginning]
+                                //  What to do? Find some data sources!
+                                findFitnessDataSources();
+
+                                // [START auth_build_googleapiclient_ending]
                             }
 
                             @Override
                             public void onConnectionSuspended(int i) {
                                 // If your connection to the sensor gets lost at some point,
                                 // you'll be able to determine the reason and react to it here.
-                                if (i == GoogleApiClient.ConnectionCallbacks.CAUSE_NETWORK_LOST) {
+                                if (i == ConnectionCallbacks.CAUSE_NETWORK_LOST) {
                                     Log.i(TAG, "Connection lost.  Cause: Network Lost.");
-                                } else if (i == GoogleApiClient.ConnectionCallbacks.CAUSE_SERVICE_DISCONNECTED) {
+                                } else if (i == ConnectionCallbacks.CAUSE_SERVICE_DISCONNECTED) {
                                     Log.i(TAG, "Connection lost.  Reason: Service Disconnected");
                                 }
                             }
@@ -142,118 +172,183 @@ public class GooglePlayServicesActivity extends Activity implements
                 )
                 .build();
     }
+    // [END auth_build_googleapiclient_ending]
 
-    /**
-     * Called when the Activity is made visible.
-     * A connection to Play Services need to be initiated as
-     * soon as the activity is visible. Registers {@code ConnectionCallbacks}
-     * and {@code OnConnectionFailedListener} on the
-     * activities itself.
-     */
+    // [START auth_connection_flow_in_activity_lifecycle_methods]
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d("onstart", "hi");
-        if (mGoogleApiClient == null) {
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    // Optionally, add additional APIs and scopes if required.
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .build();
-        }
-        mGoogleApiClient.connect();
+        // Connect to the Fitness API
+        Log.i(TAG, "Connecting...");
+        mClient.connect();
     }
 
-    /**
-     * Called when activity gets invisible. Connection to Play Services needs to
-     * be disconnected as soon as an activity is invisible.
-     */
     @Override
     protected void onStop() {
-        if (mGoogleApiClient != null) {
-            mGoogleApiClient.disconnect();
-        }
         super.onStop();
+        if (mClient.isConnected()) {
+            mClient.disconnect();
+        }
     }
 
-    /**
-     * Saves the resolution state.
-     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_OAUTH) {
+            authInProgress = false;
+            if (resultCode == RESULT_OK) {
+                // Make sure the app is not already connected or attempting to connect
+                if (!mClient.isConnecting() && !mClient.isConnected()) {
+                    mClient.connect();
+                }
+            }
+        }
+    }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBoolean(KEY_IN_RESOLUTION, authInProgress);
+        outState.putBoolean(AUTH_PENDING, authInProgress);
     }
+    // [END auth_connection_flow_in_activity_lifecycle_methods]
 
     /**
-     * Handles Google Play Services resolution callbacks.
+     * Find available data sources and attempt to register on a specific {@link DataType}.
+     * If the application cares about a data type but doesn't care about the source of the data,
+     * this can be skipped entirely, instead calling
+     *     {@link com.google.android.gms.fitness.SensorsApi
+     *     #register(GoogleApiClient, SensorRequest, DataSourceListener)},
+     * where the {@link SensorRequest} contains the desired data type.
      */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_CODE_RESOLUTION:
-                retryConnecting();
-                break;
-        }
-    }
+    private void findFitnessDataSources() {
+        // [START find_data_sources]
+        Fitness.SensorsApi.findDataSources(mClient, new DataSourcesRequest.Builder()
+                // At least one datatype must be specified.
+                .setDataTypes(DataType.TYPE_LOCATION_SAMPLE)
+                        // Can specify whether data type is raw or derived.
+                .setDataSourceTypes(DataSource.TYPE_RAW)
+                .build())
+                .setResultCallback(new ResultCallback<DataSourcesResult>() {
+                    @Override
+                    public void onResult(DataSourcesResult dataSourcesResult) {
+                        Log.i(TAG, "Result: " + dataSourcesResult.getStatus().toString());
+                        for (DataSource dataSource : dataSourcesResult.getDataSources()) {
+                            Log.i(TAG, "Data source found: " + dataSource.toString());
+                            Log.i(TAG, "Data Source type: " + dataSource.getDataType().getName());
 
-    private void retryConnecting() {
-        authInProgress = false;
-        if (!mGoogleApiClient.isConnecting()) {
-            mGoogleApiClient.connect();
-        }
-    }
-
-    /**
-     * Called when {@code mGoogleApiClient} is connected.
-     */
-    @Override
-    public void onConnected(Bundle connectionHint) {
-        Log.i(TAG, "GoogleApiClient connected");
-        // TODO: Start making API requests.
-    }
-
-    /**
-     * Called when {@code mGoogleApiClient} connection is suspended.
-     */
-    @Override
-    public void onConnectionSuspended(int cause) {
-        Log.i(TAG, "GoogleApiClient connection suspended");
-        retryConnecting();
-    }
-
-    /**
-     * Called when {@code mGoogleApiClient} is trying to connect but failed.
-     * Handle {@code result.getResolution()} if there is a resolution
-     * available.
-     */
-    @Override
-    public void onConnectionFailed(ConnectionResult result) {
-        Log.i(TAG, "GoogleApiClient connection failed: " + result.toString());
-        if (!result.hasResolution()) {
-            // Show a localized error dialog.
-            GooglePlayServicesUtil.getErrorDialog(
-                    result.getErrorCode(), this, 0, new OnCancelListener() {
-                        @Override
-                        public void onCancel(DialogInterface dialog) {
-                            retryConnecting();
+                            //Let's register a listener to receive Activity data!
+                            if (dataSource.getDataType().equals(DataType.TYPE_LOCATION_SAMPLE)
+                                    && mListener == null) {
+                                Log.i(TAG, "Data source for LOCATION_SAMPLE found!  Registering.");
+                                registerFitnessDataListener(dataSource,
+                                        DataType.TYPE_LOCATION_SAMPLE);
+                            }
                         }
-                    }).show();
-            return;
-        }
-        // If there is an existing resolution error being displayed or a resolution
-        // activity has started before, do nothing and wait for resolution
-        // progress to be completed.
-        if (authInProgress) {
-            return;
-        }
-        authInProgress = true;
-        try {
-            result.startResolutionForResult(this, REQUEST_CODE_RESOLUTION);
-        } catch (SendIntentException e) {
-            Log.e(TAG, "Exception while starting resolution activity", e);
-            retryConnecting();
-        }
+                    }
+                });
+        // [END find_data_sources]
     }
+
+    /**
+     * Register a listener with the Sensors API for the provided {@link DataSource} and
+     * {@link DataType} combo.
+     */
+    private void registerFitnessDataListener(DataSource dataSource, DataType dataType) {
+        // [START register_data_listener]
+        mListener = new OnDataPointListener() {
+            @Override
+            public void onDataPoint(DataPoint dataPoint) {
+                for (Field field : dataPoint.getDataType().getFields()) {
+                    Value val = dataPoint.getValue(field);
+                    Log.i(TAG, "Detected DataPoint field: " + field.getName());
+                    Log.i(TAG, "Detected DataPoint value: " + val);
+                }
+            }
+        };
+
+        Fitness.SensorsApi.add(
+                mClient,
+                new SensorRequest.Builder()
+                        .setDataSource(dataSource) // Optional but recommended for custom data sets.
+                        .setDataType(dataType) // Can't be omitted.
+                        .setSamplingRate(10, TimeUnit.SECONDS)
+                        .build(),
+                mListener)
+                .setResultCallback(new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+                        if (status.isSuccess()) {
+                            Log.i(TAG, "Listener registered!");
+                        } else {
+                            Log.i(TAG, "Listener not registered.");
+                        }
+                    }
+                });
+        // [END register_data_listener]
+    }
+
+    /**
+     * Unregister the listener with the Sensors API.
+     */
+    private void unregisterFitnessDataListener() {
+        if (mListener == null) {
+            // This code only activates one listener at a time.  If there's no listener, there's
+            // nothing to unregister.
+            return;
+        }
+
+        // [START unregister_data_listener]
+        // Waiting isn't actually necessary as the unregister call will complete regardless,
+        // even if called from within onStop, but a callback can still be added in order to
+        // inspect the results.
+        Fitness.SensorsApi.remove(
+                mClient,
+                mListener)
+                .setResultCallback(new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+                        if (status.isSuccess()) {
+                            Log.i(TAG, "Listener was removed!");
+                        } else {
+                            Log.i(TAG, "Listener was not removed.");
+                        }
+                    }
+                });
+        // [END unregister_data_listener]
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_unregister_listener) {
+            unregisterFitnessDataListener();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     *  Initialize a custom log class that outputs both to in-app targets and logcat.
+     */
+//    private void initializeLogging() {
+//        // Wraps Android's native log framework.
+//        LogWrapper logWrapper = new LogWrapper();
+//        // Using Log, front-end to the logging chain, emulates android.util.log method signatures.
+//        Log.setLogNode(logWrapper);
+//        // Filter strips out everything except the message text.
+//        MessageOnlyLogFilter msgFilter = new MessageOnlyLogFilter();
+//        logWrapper.setNext(msgFilter);
+//        // On screen logging via a customized TextView.
+//        LogView logView = (LogView) findViewById(R.id.sample_logview);
+//        logView.setTextAppearance(this, R.style.Log);
+//        logView.setBackgroundColor(Color.WHITE);
+//        msgFilter.setNext(logView);
+//        Log.i(TAG, "Ready");
+//    }
 }
