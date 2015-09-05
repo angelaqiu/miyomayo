@@ -45,6 +45,7 @@ limitations under the License.
         android:layout_height="wrap_content"
         android:id="@+id/imageView"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/mm_sprite_01" />
 
 </RelativeLayout>
