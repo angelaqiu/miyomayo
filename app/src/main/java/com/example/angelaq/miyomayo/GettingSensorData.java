@@ -48,7 +48,7 @@ public class GettingSensorData extends AppCompatActivity implements SensorEventL
             float z = sensorEvent.values[2];
 
             long curTime = System.currentTimeMillis();
- 
+
             if ((curTime - lastUpdate) > 100) {
                 long diffTime = (curTime - lastUpdate);
                 lastUpdate = curTime;
