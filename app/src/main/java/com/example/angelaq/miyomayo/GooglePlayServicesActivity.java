@@ -85,7 +85,7 @@ public class GooglePlayServicesActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         // Put application specific code here.
         // [END auth_oncreate_setup_beginning]
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_google_play_services);
         // This method sets up our custom logger, which will print all log messages to the device
         // screen, as well as to adb logcat.
 //        initializeLogging();

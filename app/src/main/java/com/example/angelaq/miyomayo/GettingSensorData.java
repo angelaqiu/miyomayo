@@ -5,11 +5,15 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+
+import java.util.Locale;
 
 public class GettingSensorData extends AppCompatActivity implements SensorEventListener {
     private SensorManager sensSensorManager;
@@ -19,11 +23,25 @@ public class GettingSensorData extends AppCompatActivity implements SensorEventL
     private float prev_x,prev_y,prev_z;
     private static final int DROP_THRESHOLD = 300;
     private static final int REST_THRESHOLD = 10;
+    TextToSpeech t1;
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy){}
     @Override
     public void onSensorChanged(SensorEvent sensorEvent){
         Sensor mySensor = sensorEvent.sensor;
+        t1=new TextToSpeech(getApplicationContext(),new TextToSpeech.onInitListener() {
+            @Override
+            public void onInit(int status) {
+                super.onInit();
+                if (status != TextToSpeech.ERROR) {
+                    t1.setLanguage(Locale.UK);
+                }
+            }
+            @Override
+            public void onInitListener() {
+                super.onInitListener();
+            }
+        });
         if (mySensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             float x = sensorEvent.values[0];
             float y = sensorEvent.values[1];
@@ -38,6 +56,9 @@ public class GettingSensorData extends AppCompatActivity implements SensorEventL
                 float speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
                 if (last_speed > DROP_THRESHOLD && speed > REST_THRESHOLD) {
                     Log.i("X","PHONE HAS DROPPED");
+                    CharSequence i;
+                    i = "OW";
+                    t1.speak(i,TextToSpeech.QUEUE_FLUSH,null,"x");
                 }
             }
             prev_x = last_x;
@@ -61,6 +82,11 @@ public class GettingSensorData extends AppCompatActivity implements SensorEventL
     protected void onPause() {
         super.onPause();
         sensSensorManager.unregisterListener(this);
+        if (t1 != null) {
+            t1.stop();
+            t1.shutdown();
+        }
+        super.onPause();
     }
     @Override
     protected void onResume() {
