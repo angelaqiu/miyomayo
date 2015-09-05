@@ -132,6 +132,7 @@ public class GooglePlayServicesActivity extends ActionBarActivity {
                                             ? 0
                                             : totalSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
                                       Log.d(TAG, "total number of steps: " + total);
+                                        txt.setText("# of steps:" + total);
                                     }
                                 });
 //                                if (totalResult.getStatus().isSuccess()) {
