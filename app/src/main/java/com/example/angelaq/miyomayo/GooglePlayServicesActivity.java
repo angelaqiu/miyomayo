@@ -96,6 +96,8 @@ public class GooglePlayServicesActivity extends ActionBarActivity {
         }
 
         buildFitnessClient();
+        GettingSensorData sensorData = new GettingSensorData();
+
     }
     // [END auth_oncreate_setup_ending]
 
