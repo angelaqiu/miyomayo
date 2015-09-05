@@ -50,7 +50,7 @@ limitations under the License.
         android:id="@+id/testtxt"
         android:fontFamily="roboto"
         android:textSize="40.5sp"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true" />
 
     <ImageView
