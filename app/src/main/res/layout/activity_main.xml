@@ -40,7 +40,7 @@ limitations under the License.
         android:textColor="#ffffff"
         android:id="@+id/testtxt"
         android:fontFamily="roboto"
-        android:textSize="40.5sp"
+        android:textSize="20.5sp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
@@ -82,8 +82,8 @@ limitations under the License.
     android:background="@drawable/rectangle" />
 
     <RelativeLayout
-        android:id="@+id/rlv1"
-        android:layout_width="150dp"
+        android:id="@+id/healthbar"
+        android:layout_width="120dp"
         android:layout_height="20dp"
         android:backgroundTint="#428c63"
         android:layout_marginLeft="55dip"
