@@ -42,17 +42,6 @@ limitations under the License.
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="test"
-        android:textColor="#ffffff"
-        android:id="@+id/testtxt"
-        android:fontFamily="roboto"
-        android:textSize="40.5sp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
