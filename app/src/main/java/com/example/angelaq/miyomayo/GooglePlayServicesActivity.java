@@ -82,7 +82,7 @@ public class GooglePlayServicesActivity extends ActionBarActivity {
         // screen, as well as to adb logcat.
 //        initializeLogging();
 
-        txt = (TextView)findViewById(R.id.sample_text);
+        txt = (TextView)findViewById(R.id.testtxt);
 
         // [START auth_oncreate_setup_ending]
 
