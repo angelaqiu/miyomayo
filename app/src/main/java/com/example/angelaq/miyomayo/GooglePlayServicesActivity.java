@@ -200,7 +200,6 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
                                         long total = totalSet.isEmpty()
                                                 ? 0
                                                 : totalSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
-                                        Log.d(TAG, "total number of steps: " + total);
                                         txt.setText("# of steps:" + total);
                                     }
                                 });
@@ -304,7 +303,6 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
 
     public void sendOw(View v) {
         RelativeLayout lay = (RelativeLayout)findViewById(R.id.healthbar);
-        Log.v(TAG, " width: " + lay.getLayoutParams().width);
 //        lay.getLayoutParams().width -= 10;
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(lay.getLayoutParams().width - 10,
                 lay.getLayoutParams().height);
@@ -317,7 +315,6 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
 
     public void sendFit(View v) {
         RelativeLayout lay = (RelativeLayout)findViewById(R.id.healthbar);
-        Log.v(TAG, " width: " + lay.getLayoutParams().width);
 //        lay.getLayoutParams().width -= 10;
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(lay.getLayoutParams().width + 20,
                 lay.getLayoutParams().height);
