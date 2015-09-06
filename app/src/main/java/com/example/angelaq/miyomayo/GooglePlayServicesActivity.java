@@ -20,6 +20,8 @@ import android.content.IntentSender;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -232,144 +234,31 @@ public class GooglePlayServicesActivity extends ActionBarActivity {
     }
     // [END auth_connection_flow_in_activity_lifecycle_methods]
 
-//    /**
-//     * Find available data sources and attempt to register on a specific {@link DataType}.
-//     * If the application cares about a data type but doesn't care about the source of the data,
-//     * this can be skipped entirely, instead calling
-//     *     {@link com.google.android.gms.fitness.SensorsApi
-//     *     #register(GoogleApiClient, SensorRequest, DataSourceListener)},
-//     * where the {@link SensorRequest} contains the desired data type.
-//     */
-//    private void findFitnessDataSources() {
-//        // [START find_data_sources]
-//        Fitness.SensorsApi.findDataSources(mClient, new DataSourcesRequest.Builder()
-//                // At least one datatype must be specified.
-//                .setDataTypes(DataType.TYPE_LOCATION_SAMPLE)
-//                        // Can specify whether data type is raw or derived.
-//                .setDataSourceTypes(DataSource.TYPE_RAW)
-//                .build())
-//                .setResultCallback(new ResultCallback<DataSourcesResult>() {
-//                    @Override
-//                    public void onResult(DataSourcesResult dataSourcesResult) {
-//                        Log.i(TAG, "Result: " + dataSourcesResult.getStatus().toString());
-//                        for (DataSource dataSource : dataSourcesResult.getDataSources()) {
-//                            Log.i(TAG, "Data source found: " + dataSource.toString());
-//                            Log.i(TAG, "Data Source type: " + dataSource.getDataType().getName());
-//
-//                            //Let's register a listener to receive Activity data!
-//                            if (dataSource.getDataType().equals(DataType.TYPE_LOCATION_SAMPLE)
-//                                    && mListener == null) {
-//                                Log.i(TAG, "Data source for LOCATION_SAMPLE found!  Registering.");
-//                                registerFitnessDataListener(dataSource,
-//                                        DataType.TYPE_LOCATION_SAMPLE);
-//                            }
-//                        }
-//                    }
-//                });
-//        // [END find_data_sources]
-//    }
-//
-//    /**
-//     * Register a listener with the Sensors API for the provided {@link DataSource} and
-//     * {@link DataType} combo.
-//     */
-//    private void registerFitnessDataListener(DataSource dataSource, DataType dataType) {
-//        // [START register_data_listener]
-//        mListener = new OnDataPointListener() {
-//            @Override
-//            public void onDataPoint(DataPoint dataPoint) {
-//                for (Field field : dataPoint.getDataType().getFields()) {
-//                    Value val = dataPoint.getValue(field);
-//                    Log.i(TAG, "Detected DataPoint field: " + field.getName());
-//                    Log.i(TAG, "Detected DataPoint value: " + val);
-//                }
-//            }
-//        };
-//
-//        Fitness.SensorsApi.add(
-//                mClient,
-//                new SensorRequest.Builder()
-//                        .setDataSource(dataSource) // Optional but recommended for custom data sets.
-//                        .setDataType(dataType) // Can't be omitted.
-//                        .setSamplingRate(10, TimeUnit.SECONDS)
-//                        .build(),
-//                mListener)
-//                .setResultCallback(new ResultCallback<Status>() {
-//                    @Override
-//                    public void onResult(Status status) {
-//                        if (status.isSuccess()) {
-//                            Log.i(TAG, "Listener registered!");
-//                        } else {
-//                            Log.i(TAG, "Listener not registered.");
-//                        }
-//                    }
-//                });
-//        // [END register_data_listener]
-//    }
-//
-//    /**
-//     * Unregister the listener with the Sensors API.
-//     */
-//    private void unregisterFitnessDataListener() {
-//        if (mListener == null) {
-//            // This code only activates one listener at a time.  If there's no listener, there's
-//            // nothing to unregister.
-//            return;
-//        }
-//
-//        // [START unregister_data_listener]
-//        // Waiting isn't actually necessary as the unregister call will complete regardless,
-//        // even if called from within onStop, but a callback can still be added in order to
-//        // inspect the results.
-//        Fitness.SensorsApi.remove(
-//                mClient,
-//                mListener)
-//                .setResultCallback(new ResultCallback<Status>() {
-//                    @Override
-//                    public void onResult(Status status) {
-//                        if (status.isSuccess()) {
-//                            Log.i(TAG, "Listener was removed!");
-//                        } else {
-//                            Log.i(TAG, "Listener was not removed.");
-//                        }
-//                    }
-//                });
-//        // [END unregister_data_listener]
-//    }
-//
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.main, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        int id = item.getItemId();
-//        if (id == R.id.action_unregister_listener) {
-//            unregisterFitnessDataListener();
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+    public void sendOw(View v) {
+        RelativeLayout lay = (RelativeLayout)findViewById(R.id.healthbar);
+        Log.v(TAG, " width: " + lay.getLayoutParams().width);
+//        lay.getLayoutParams().width -= 10;
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(lay.getLayoutParams().width - 10,
+                lay.getLayoutParams().height);
+        params.setMargins(371, 1222, 0, 0);
 
-    /**
-     *  Initialize a custom log class that outputs both to in-app targets and logcat.
-     */
-//    private void initializeLogging() {
-//        // Wraps Android's native log framework.
-//        LogWrapper logWrapper = new LogWrapper();
-//        // Using Log, front-end to the logging chain, emulates android.util.log method signatures.
-//        Log.setLogNode(logWrapper);
-//        // Filter strips out everything except the message text.
-//        MessageOnlyLogFilter msgFilter = new MessageOnlyLogFilter();
-//        logWrapper.setNext(msgFilter);
-//        // On screen logging via a customized TextView.
-//        LogView logView = (LogView) findViewById(R.id.sample_logview);
-//        logView.setTextAppearance(this, R.style.Log);
-//        logView.setBackgroundColor(Color.WHITE);
-//        msgFilter.setNext(logView);
-//        Log.i(TAG, "Ready");
-//    }
+        lay.setLayoutParams(params);
+        Log.v(TAG, "ow!!!!!!");
+
+    }
+
+    public void sendFit(View v) {
+        RelativeLayout lay = (RelativeLayout)findViewById(R.id.healthbar);
+        Log.v(TAG, " width: " + lay.getLayoutParams().width);
+//        lay.getLayoutParams().width -= 10;
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(lay.getLayoutParams().width + 20,
+                lay.getLayoutParams().height);
+        params.setMargins(371, 1222, 0, 0);
+
+        lay.setLayoutParams(params);
+        Log.v(TAG, "fit!!!!!!");
+
+
+
+    }
 }

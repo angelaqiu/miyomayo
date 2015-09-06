@@ -76,19 +76,19 @@ limitations under the License.
     android:layout_width="110dp"
     android:layout_height="20dp"
     android:backgroundTint="#f1f1f1"
-    android:layout_marginLeft="120dip"
+    android:layout_marginLeft="120dp"
     android:layout_below="@+id/imageView"
-    android:layout_marginTop="40dip"
+    android:layout_marginTop="40dp"
     android:background="@drawable/rectangle" />
 
     <RelativeLayout
         android:id="@+id/healthbar"
-        android:layout_width="50dp"
+        android:layout_width="52dp"
         android:layout_height="10dp"
         android:backgroundTint="#428c63"
-        android:layout_marginLeft="125dip"
+        android:layout_marginLeft="125dp"
         android:layout_below="@+id/imageView"
-        android:layout_marginTop="45dip"
+        android:layout_marginTop="45dp"
         android:background="@drawable/rectangle" />
 
     <Button
@@ -96,7 +96,8 @@ limitations under the License.
         android:layout_height="wrap_content"
         android:text="Ow!"
         android:id="@+id/button"
-        android:layout_marginTop="422dip"
+        android:onClick="sendOw"
+        android:layout_marginTop="422dp"
         android:layout_alignParentLeft="true" />
 
     <Button
@@ -104,6 +105,7 @@ limitations under the License.
         android:layout_height="wrap_content"
         android:text="Fit!"
         android:id="@+id/button2"
+        android:onClick="sendFit"
         android:layout_marginTop="422dip"
         android:layout_alignParentRight="true" />
 
