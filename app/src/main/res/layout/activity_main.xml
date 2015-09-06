@@ -40,7 +40,7 @@ limitations under the License.
         android:textColor="#ffffff"
         android:id="@+id/testtxt"
         android:fontFamily="roboto"
-        android:textSize="40.5sp"
+        android:textSize="20.5sp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
@@ -69,27 +69,54 @@ limitations under the License.
         android:layout_height="wrap_content"
         android:id="@+id/imageView2"
         android:layout_below="@+id/imageView"
-        android:src="@drawable/earth2" />
+        android:src="@drawable/earth3" />
 
     <RelativeLayout
     android:id="@+id/rlv1"
-    android:layout_width="250dp"
-    android:layout_height="30dp"
+    android:layout_width="110dp"
+    android:layout_height="20dp"
     android:backgroundTint="#f1f1f1"
-    android:layout_marginLeft="50dip"
+    android:layout_marginLeft="120dp"
     android:layout_below="@+id/imageView"
-    android:layout_marginTop="40dip"
+    android:layout_marginTop="40dp"
     android:background="@drawable/rectangle" />
 
     <RelativeLayout
-        android:id="@+id/rlv1"
-        android:layout_width="150dp"
-        android:layout_height="20dp"
+        android:id="@+id/healthbar"
+        android:layout_width="52dp"
+        android:layout_height="10dp"
         android:backgroundTint="#428c63"
-        android:layout_marginLeft="55dip"
+        android:layout_marginLeft="125dp"
         android:layout_below="@+id/imageView"
-        android:layout_marginTop="45dip"
+        android:layout_marginTop="45dp"
         android:background="@drawable/rectangle" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ow!"
+        android:id="@+id/button"
+        android:onClick="sendOw"
+        android:layout_marginTop="422dp"
+        android:layout_alignParentLeft="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fit!"
+        android:id="@+id/button2"
+        android:onClick="sendFit"
+        android:layout_marginTop="422dip"
+        android:layout_alignParentRight="true" />
+
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+        <!--android:text="ow!"-->
+        <!--android:id="@+id/textView3"-->
+        <!--android:layout_alignTop="@+id/imageView"-->
+        <!--android:layout_toStartOf="@+id/imageView" />-->
 
 
 </RelativeLayout>
