@@ -86,15 +86,6 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         Sensor mySensor = sensorEvent.sensor;
-        t1=new TextToSpeech(this,new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if (status == TextToSpeech.SUCCESS) {
-                    t1.setLanguage(Locale.UK);
-                }
-            }
-
-        });
         if (mySensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             z = sensorEvent.values[2];
             long curTime = System.currentTimeMillis();
@@ -108,8 +99,7 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
                     Log.i("X", "PHONE HAS DROPPED");
                     CharSequence i;
                     i = "OW";
-<<<<<<< HEAD
-                    t1.speak(i, TextToSpeech.QUEUE_ADD, null, "x");
+//                    t1.speak(i, TextToSpeech.QUEUE_FLUSH, null, "x");
                     RelativeLayout lay = (RelativeLayout)findViewById(R.id.healthbar);
 //        lay.getLayoutParams().width -= 10;
                     RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(lay.getLayoutParams().width - 10,
@@ -117,10 +107,9 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
                     params.setMargins(371, 1222, 0, 0);
 
                     lay.setLayoutParams(params);
-=======
+
                     t1.speak(i, TextToSpeech.QUEUE_FLUSH, null, "x");
                     loseHP();
->>>>>>> 76c8d24ee180aed8570852565b3a033725713259
                 }
             }
         }
@@ -134,7 +123,7 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
                     Log.i("Z", "PHONE HAS TURNED");
                     CharSequence i;
                     i = "WHEEEEEEE";
-                    t1.speak(i, TextToSpeech.QUEUE_ADD, null, "z");
+                    t1.speak(i, TextToSpeech.QUEUE_FLUSH, null, "z");
                 }
             }
         }
@@ -185,6 +174,15 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
         senGyroscope = manager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         manager.registerListener(this, senAccelerometer,SensorManager.SENSOR_DELAY_NORMAL);
         manager.registerListener(this, senGyroscope, SensorManager.SENSOR_DELAY_NORMAL);
+        t1=new TextToSpeech(this,new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    t1.setLanguage(Locale.UK);
+                }
+            }
+
+        });
     }
     // [END auth_oncreate_setup_ending]
 
@@ -285,6 +283,10 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
         if (mClient.isConnected()) {
             mClient.disconnect();
         }
+        if (t1 != null) {
+            t1.stop();
+        }
+        t1.shutdown();
     }
 
     @Override
@@ -360,8 +362,7 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
                         ? 0
                         : totalSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
                 txt.setText("# of steps:" + total);
-                if (total > 5000)
-                {
+                if (total > 5000) {
                     Toast.makeText(GooglePlayServicesActivity.this, "Congratulations on hitting your goal! +20HP", Toast.LENGTH_LONG).show();
                     Button butt = (Button) findViewById(R.id.refreshButton);
                     butt.setEnabled(false);
