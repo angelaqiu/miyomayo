@@ -84,15 +84,11 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
         t1=new TextToSpeech(getApplicationContext(),new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
-//              super.onInit();
                 if (status != TextToSpeech.ERROR) {
                     t1.setLanguage(Locale.UK);
                 }
             }
-//            @Override
-//            public void OnInitListener() {
-//                super.OnInitListener();
-//            }
+
         });
         if (mySensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             z = sensorEvent.values[2];
