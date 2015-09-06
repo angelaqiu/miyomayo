@@ -103,10 +103,10 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
                 lastUpdate = curr;
                 float gZ = sensorEvent.values[2];
                 Log.i("gZ",String.valueOf(gZ));
-                if (gZ >= 3) {
+                if (gZ >= 4) {
                     Log.i("Z", "PHONE HAS TURNED");
                     CharSequence i;
-                    i = "WHEEEEEEE";
+                    i = "WHEE";
                     t1.speak(i, TextToSpeech.QUEUE_FLUSH, null, "z");
                 }
             }
