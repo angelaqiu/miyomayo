@@ -67,6 +67,8 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
     private static final int REQUEST_OAUTH = 1;
 
     TextView txt;
+
+
     private Sensor senAccelerometer;
     private Sensor senGyroscope;
     private long lastUpdate = 0;
@@ -82,10 +84,10 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         Sensor mySensor = sensorEvent.sensor;
-        t1=new TextToSpeech(getApplicationContext(),new TextToSpeech.OnInitListener() {
+        t1=new TextToSpeech(this,new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
-                if (status != TextToSpeech.ERROR) {
+                if (status == TextToSpeech.SUCCESS) {
                     t1.setLanguage(Locale.UK);
                 }
             }
