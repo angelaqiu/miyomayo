@@ -106,7 +106,7 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
                     Log.i("X", "PHONE HAS DROPPED");
                     CharSequence i;
                     i = "OW";
-                    t1.speak(i, TextToSpeech.QUEUE_FLUSH, null, "x");
+                    t1.speak(i, TextToSpeech.QUEUE_ADD, null, "x");
                     RelativeLayout lay = (RelativeLayout)findViewById(R.id.healthbar);
 //        lay.getLayoutParams().width -= 10;
                     RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(lay.getLayoutParams().width - 10,
@@ -127,7 +127,7 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
                     Log.i("Z", "PHONE HAS TURNED");
                     CharSequence i;
                     i = "WHEEEEEEE";
-                    t1.speak(i, TextToSpeech.QUEUE_FLUSH, null, "z");
+                    t1.speak(i, TextToSpeech.QUEUE_ADD, null, "z");
                 }
             }
         }
