@@ -42,7 +42,7 @@ limitations under the License.
         android:fontFamily="roboto"
         android:textSize="20.5sp"
         android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentLeft="true" />
 
 
     <!--<TextView-->
