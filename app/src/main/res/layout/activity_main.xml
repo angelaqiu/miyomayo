@@ -41,7 +41,7 @@ limitations under the License.
         android:id="@+id/testtxt"
         android:fontFamily="roboto"
         android:textSize="20.5sp"
-        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true" />
 
 
@@ -107,6 +107,15 @@ limitations under the License.
         android:id="@+id/button2"
         android:onClick="sendFit"
         android:layout_marginTop="422dip"
+        android:layout_alignParentRight="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="update"
+        android:id="@+id/refreshButton"
+        android:onClick="buttonUpdate"
+        android:layout_marginTop="0dip"
         android:layout_alignParentRight="true" />
 
     <!--<TextView-->
