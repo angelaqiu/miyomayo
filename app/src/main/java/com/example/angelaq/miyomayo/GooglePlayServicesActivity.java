@@ -189,14 +189,12 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
             @Override
             public void onInit(int status) {
                 if (status == TextToSpeech.SUCCESS) {
-                    Locale[] locales = Locale.getAvailableLocales();
                     List<Locale> localeList = new ArrayList<Locale>();
-                    for (Locale locale : locales) {
-                        int res = t1.isLanguageAvailable(locale);
-                        if (res == TextToSpeech.LANG_COUNTRY_AVAILABLE) {
-                            localeList.add(locale);
-                        }
-                    }
+                    localeList.add(Locale.CANADA);
+                    localeList.add(Locale.ENGLISH);
+                    localeList.add(Locale.UK);
+                    localeList.add(Locale.US);
+
                     t1.setLanguage(Locale.UK);
                 }
             }
