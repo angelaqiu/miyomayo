@@ -341,6 +341,13 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
                     Toast.makeText(GooglePlayServicesActivity.this, "Congratulations on hitting your goal! +20HP", Toast.LENGTH_LONG).show();
                     Button butt = (Button) findViewById(R.id.refreshButton);
                     butt.setEnabled(false);
+                    RelativeLayout lay = (RelativeLayout)findViewById(R.id.healthbar);
+//        lay.getLayoutParams().width -= 10;
+                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(lay.getLayoutParams().width + 20,
+                            lay.getLayoutParams().height);
+                    params.setMargins(371, 1222, 0, 0);
+
+                    lay.setLayoutParams(params);
                 }
             }
         });
