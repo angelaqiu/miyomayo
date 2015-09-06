@@ -73,10 +73,6 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
     private static final int REQUEST_OAUTH = 1;
 
     TextView txt;
-    private List<Locale> localeList;
-    private Random random;
-    private Locale loc;
-    private int ind;
     private Sensor senAccelerometer;
     private Sensor senGyroscope;
     private long lastUpdate = 0;
@@ -113,9 +109,6 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
                     params.setMargins(371, 1222, 0, 0);
 
                     lay.setLayoutParams(params);
-                    ind = random.nextInt(localeList.size());
-                    loc = localeList.get(ind);
-                    t1.setLanguage(loc);
                     t1.speak(i, TextToSpeech.QUEUE_FLUSH, null, "x");
                     loseHP();
                 }
@@ -131,9 +124,6 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
                     Log.i("Z", "PHONE HAS TURNED");
                     CharSequence i;
                     i = "WHEEEEEEE";
-                    ind = random.nextInt(localeList.size());
-                    loc = localeList.get(ind);
-                    t1.setLanguage(loc);
                     t1.speak(i, TextToSpeech.QUEUE_FLUSH, null, "z");
                 }
             }
@@ -189,12 +179,6 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
             @Override
             public void onInit(int status) {
                 if (status == TextToSpeech.SUCCESS) {
-                    List<Locale> localeList = new ArrayList<Locale>();
-                    localeList.add(Locale.CANADA);
-                    localeList.add(Locale.ENGLISH);
-                    localeList.add(Locale.UK);
-                    localeList.add(Locale.US);
-
                     t1.setLanguage(Locale.UK);
                 }
             }
