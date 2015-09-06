@@ -99,7 +99,6 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
                     Log.i("X", "PHONE HAS DROPPED");
                     CharSequence i;
                     i = "OW";
-<<<<<<< HEAD
 //                    t1.speak(i, TextToSpeech.QUEUE_FLUSH, null, "x");
                     RelativeLayout lay = (RelativeLayout)findViewById(R.id.healthbar);
 //        lay.getLayoutParams().width -= 10;
@@ -109,10 +108,8 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
 
                     lay.setLayoutParams(params);
 
-=======
                     t1.speak(i, TextToSpeech.QUEUE_ADD, null, "x");
                     loseHP();
->>>>>>> b6f064e9e7b800404adf95658b3d0c33c776c1cc
                     t1.speak(i, TextToSpeech.QUEUE_FLUSH, null, "x");
                     loseHP();
                 }
