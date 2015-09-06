@@ -105,6 +105,13 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
                     CharSequence i;
                     i = "OW";
                     t1.speak(i, TextToSpeech.QUEUE_FLUSH, null, "x");
+                    RelativeLayout lay = (RelativeLayout)findViewById(R.id.healthbar);
+//        lay.getLayoutParams().width -= 10;
+                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(lay.getLayoutParams().width - 10,
+                            lay.getLayoutParams().height);
+                    params.setMargins(371, 1222, 0, 0);
+
+                    lay.setLayoutParams(params);
                 }
             }
         }
