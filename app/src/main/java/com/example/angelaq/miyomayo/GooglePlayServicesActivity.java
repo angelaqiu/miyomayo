@@ -29,6 +29,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewDebug;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -317,6 +318,11 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
             params.setMargins(371, 1222, 0, 0);
             lay.setLayoutParams(params);
         }
+
+        if (lay.getLayoutParams().width > 60) {
+            ImageView img= (ImageView) findViewById(R.id.imageView);
+            img.setImageResource(R.drawable.mm_sprite_01x);
+        }
     }
 
     public void loseHP() {
@@ -332,6 +338,11 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(0, lay.getLayoutParams().height);
             params.setMargins(371, 1222, 0, 0);
             lay.setLayoutParams(params);
+        }
+
+        if (lay.getLayoutParams().width <= 60) {
+            ImageView img= (ImageView) findViewById(R.id.imageView);
+            img.setImageResource(R.drawable.mm_sprite_01xsadd);
         }
     }
 
