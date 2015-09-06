@@ -108,19 +108,10 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
                     Log.i("X", "PHONE HAS DROPPED");
                     CharSequence i;
                     i = "OW";
-<<<<<<< HEAD
                     t1.speak(i, TextToSpeech.QUEUE_ADD, null, "x");
-                    RelativeLayout lay = (RelativeLayout)findViewById(R.id.healthbar);
-//        lay.getLayoutParams().width -= 10;
-                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(lay.getLayoutParams().width - 10,
-                            lay.getLayoutParams().height);
-                    params.setMargins(371, 1222, 0, 0);
-
-                    lay.setLayoutParams(params);
-=======
+                    loseHP();
                     t1.speak(i, TextToSpeech.QUEUE_FLUSH, null, "x");
                     loseHP();
->>>>>>> 76c8d24ee180aed8570852565b3a033725713259
                 }
             }
         }
@@ -303,14 +294,14 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
     public void addHP() {
         Log.v(TAG, "adding HP");
         RelativeLayout lay = (RelativeLayout)findViewById(R.id.healthbar);
-        if (lay.getLayoutParams().width <= 80) {
+        if (lay.getLayoutParams().width <= 300) {
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(lay.getLayoutParams().width + 20,
                     lay.getLayoutParams().height);
             params.setMargins(371, 1222, 0, 0);
             lay.setLayoutParams(params);
         }
-        if (lay.getLayoutParams().width > 100) {
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(100, lay.getLayoutParams().height);
+        if (lay.getLayoutParams().width > 300) {
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(300, lay.getLayoutParams().height);
             params.setMargins(371, 1222, 0, 0);
             lay.setLayoutParams(params);
         }
