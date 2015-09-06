@@ -56,18 +56,6 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 
-//import com.example.angelaq.miyomayo.R;
-//import com.google.android.gms.fit.samples.common.logger.Log;
-//import com.google.android.gms.fit.samples.common.logger.LogView;
-//import com.google.android.gms.fit.samples.common.logger.LogWrapper;
-//import com.google.android.gms.fit.samples.common.logger.MessageOnlyLogFilter;
-
-
-/**
- * This sample demonstrates how to use the Sensors API of the Google Fit platform to find
- * available data sources and to register/unregister listeners to those sources. It also
- * demonstrates how to authenticate a user with Google Play Services.
- */
 public class GooglePlayServicesActivity extends ActionBarActivity implements SensorEventListener {
     public static final String TAG = "BasicSensorsApi";
     // [START auth_variable_references]
@@ -103,13 +91,7 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
                     CharSequence i;
                     i = "OW";
 //                    t1.speak(i, TextToSpeech.QUEUE_FLUSH, null, "x");
-                    RelativeLayout lay = (RelativeLayout)findViewById(R.id.healthbar);
-//        lay.getLayoutParams().width -= 10;
-                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(lay.getLayoutParams().width - 10,
-                            lay.getLayoutParams().height);
-                    params.setMargins(371, 1222, 0, 0);
-
-                    lay.setLayoutParams(params);
+                    loseHP();
                     t1.speak(i, TextToSpeech.QUEUE_FLUSH, null, "x");
                     loseHP();
                 }
