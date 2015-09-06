@@ -109,13 +109,7 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
                     CharSequence i;
                     i = "OW";
                     t1.speak(i, TextToSpeech.QUEUE_FLUSH, null, "x");
-                    RelativeLayout lay = (RelativeLayout)findViewById(R.id.healthbar);
-//        lay.getLayoutParams().width -= 10;
-                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(lay.getLayoutParams().width - 10,
-                            lay.getLayoutParams().height);
-                    params.setMargins(371, 1222, 0, 0);
-
-                    lay.setLayoutParams(params);
+                    loseHP();
                 }
             }
         }
@@ -295,6 +289,38 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
         }
     }
 
+    public void addHP() {
+        Log.v(TAG, "adding HP");
+        RelativeLayout lay = (RelativeLayout)findViewById(R.id.healthbar);
+        if (lay.getLayoutParams().width <= 80) {
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(lay.getLayoutParams().width + 20,
+                    lay.getLayoutParams().height);
+            params.setMargins(371, 1222, 0, 0);
+            lay.setLayoutParams(params);
+        }
+        if (lay.getLayoutParams().width > 100) {
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(100, lay.getLayoutParams().height);
+            params.setMargins(371, 1222, 0, 0);
+            lay.setLayoutParams(params);
+        }
+    }
+
+    public void loseHP() {
+        RelativeLayout lay = (RelativeLayout)findViewById(R.id.healthbar);
+        if (lay.getLayoutParams().width > 0) {
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(lay.getLayoutParams().width - 10,
+                    lay.getLayoutParams().height);
+            params.setMargins(371, 1222, 0, 0);
+            lay.setLayoutParams(params);
+        }
+
+        if (lay.getLayoutParams().width < 0) {
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(0, lay.getLayoutParams().height);
+            params.setMargins(371, 1222, 0, 0);
+            lay.setLayoutParams(params);
+        }
+    }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -303,27 +329,14 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
     // [END auth_connection_flow_in_activity_lifecycle_methods]
 
     public void sendOw(View v) {
-        RelativeLayout lay = (RelativeLayout)findViewById(R.id.healthbar);
-//        lay.getLayoutParams().width -= 10;
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(lay.getLayoutParams().width - 10,
-                lay.getLayoutParams().height);
-        params.setMargins(371, 1222, 0, 0);
-
-        lay.setLayoutParams(params);
+        loseHP();
         Log.v(TAG, "ow!!!!!!");
 
     }
 
     public void sendFit(View v) {
-        RelativeLayout lay = (RelativeLayout)findViewById(R.id.healthbar);
-//        lay.getLayoutParams().width -= 10;
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(lay.getLayoutParams().width + 20,
-                lay.getLayoutParams().height);
-        params.setMargins(371, 1222, 0, 0);
-
-        lay.setLayoutParams(params);
+        addHP();
         Log.v(TAG, "fit!!!!!!");
-
     }
 
     public void buttonUpdate(View v) {
@@ -341,13 +354,7 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
                     Toast.makeText(GooglePlayServicesActivity.this, "Congratulations on hitting your goal! +20HP", Toast.LENGTH_LONG).show();
                     Button butt = (Button) findViewById(R.id.refreshButton);
                     butt.setEnabled(false);
-                    RelativeLayout lay = (RelativeLayout)findViewById(R.id.healthbar);
-//        lay.getLayoutParams().width -= 10;
-                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(lay.getLayoutParams().width + 20,
-                            lay.getLayoutParams().height);
-                    params.setMargins(371, 1222, 0, 0);
-
-                    lay.setLayoutParams(params);
+                    addHP();
                 }
             }
         });
