@@ -27,6 +27,7 @@ import android.speech.tts.TextToSpeech;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewDebug;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -94,6 +95,7 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
             z = sensorEvent.values[2];
             long curTime = System.currentTimeMillis();
             if ((curTime - lastUpdate) > 100) {
+                Log.i("z", String.valueOf(z));
                 long diffTime = (curTime - lastUpdate);
                 lastUpdate = curTime;
                 float last_speed = Math.abs(last_z - prev_z) / diffTime * 10000;
@@ -109,7 +111,9 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
         else if (mySensor.getType() == Sensor.TYPE_GYROSCOPE) {
             long curr = System.currentTimeMillis();
             if ((curr - lastUpdate) > 100) {
+                lastUpdate = curr;
                 float gZ = sensorEvent.values[2];
+                Log.i("gZ",String.valueOf(gZ));
                 if (gZ >= 4) {
                     Log.i("Z", "PHONE HAS TURNED");
                     CharSequence i;
