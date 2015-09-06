@@ -28,8 +28,10 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewDebug;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -106,6 +108,7 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
                     Log.i("X", "PHONE HAS DROPPED");
                     CharSequence i;
                     i = "OW";
+<<<<<<< HEAD
                     t1.speak(i, TextToSpeech.QUEUE_ADD, null, "x");
                     RelativeLayout lay = (RelativeLayout)findViewById(R.id.healthbar);
 //        lay.getLayoutParams().width -= 10;
@@ -114,6 +117,10 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
                     params.setMargins(371, 1222, 0, 0);
 
                     lay.setLayoutParams(params);
+=======
+                    t1.speak(i, TextToSpeech.QUEUE_FLUSH, null, "x");
+                    loseHP();
+>>>>>>> 76c8d24ee180aed8570852565b3a033725713259
                 }
             }
         }
@@ -201,10 +208,7 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
                             @Override
                             public void onConnected(Bundle bundle) {
                                 Log.i(TAG, "Connected!!!");
-                                // Now you can make calls to the Fitness APIs.
-                                // Put application specific code here.
-                                // [END auth_build_googleapiclient_beginning]
-                                //  What to do? Find some data sources!
+
                                 PendingResult<DailyTotalResult> result = Fitness.HistoryApi.readDailyTotal(mClient, DataType.TYPE_STEP_COUNT_DELTA);
                                 result.setResultCallback(new ResultCallback<DailyTotalResult>() {
                                     @Override
@@ -216,17 +220,6 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
                                         txt.setText("# of steps:" + total);
                                     }
                                 });
-//                                if (totalResult.getStatus().isSuccess()) {
-//                                    DataSet totalSet = totalResult.getTotal();
-//                                    long total = totalSet.isEmpty()
-//                                            ? 0
-//                                            : totalSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
-//                                    Log.d(TAG, "total number of steps: " + total);
-//                                } else {
-//                                    Log.i(TAG, "error");
-//                                }
-
-                                // [START auth_build_googleapiclient_ending]
                             }
 
                             @Override
@@ -307,6 +300,38 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
         }
     }
 
+    public void addHP() {
+        Log.v(TAG, "adding HP");
+        RelativeLayout lay = (RelativeLayout)findViewById(R.id.healthbar);
+        if (lay.getLayoutParams().width <= 80) {
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(lay.getLayoutParams().width + 20,
+                    lay.getLayoutParams().height);
+            params.setMargins(371, 1222, 0, 0);
+            lay.setLayoutParams(params);
+        }
+        if (lay.getLayoutParams().width > 100) {
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(100, lay.getLayoutParams().height);
+            params.setMargins(371, 1222, 0, 0);
+            lay.setLayoutParams(params);
+        }
+    }
+
+    public void loseHP() {
+        RelativeLayout lay = (RelativeLayout)findViewById(R.id.healthbar);
+        if (lay.getLayoutParams().width > 0) {
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(lay.getLayoutParams().width - 10,
+                    lay.getLayoutParams().height);
+            params.setMargins(371, 1222, 0, 0);
+            lay.setLayoutParams(params);
+        }
+
+        if (lay.getLayoutParams().width < 0) {
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(0, lay.getLayoutParams().height);
+            params.setMargins(371, 1222, 0, 0);
+            lay.setLayoutParams(params);
+        }
+    }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -315,28 +340,35 @@ public class GooglePlayServicesActivity extends ActionBarActivity implements Sen
     // [END auth_connection_flow_in_activity_lifecycle_methods]
 
     public void sendOw(View v) {
-        RelativeLayout lay = (RelativeLayout)findViewById(R.id.healthbar);
-//        lay.getLayoutParams().width -= 10;
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(lay.getLayoutParams().width - 10,
-                lay.getLayoutParams().height);
-        params.setMargins(371, 1222, 0, 0);
-
-        lay.setLayoutParams(params);
+        loseHP();
         Log.v(TAG, "ow!!!!!!");
 
     }
 
     public void sendFit(View v) {
-        RelativeLayout lay = (RelativeLayout)findViewById(R.id.healthbar);
-//        lay.getLayoutParams().width -= 10;
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(lay.getLayoutParams().width + 20,
-                lay.getLayoutParams().height);
-        params.setMargins(371, 1222, 0, 0);
-
-        lay.setLayoutParams(params);
+        addHP();
         Log.v(TAG, "fit!!!!!!");
+    }
 
-
-
+    public void buttonUpdate(View v) {
+        PendingResult<DailyTotalResult> result = Fitness.HistoryApi.readDailyTotal(mClient, DataType.TYPE_STEP_COUNT_DELTA);
+        result.setResultCallback(new ResultCallback<DailyTotalResult>() {
+            @Override
+            public void onResult(DailyTotalResult dailyTotalResult) {
+                DataSet totalSet = dailyTotalResult.getTotal();
+                long total = totalSet.isEmpty()
+                        ? 0
+                        : totalSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
+                txt.setText("# of steps:" + total);
+                if (total > 5000)
+                {
+                    Toast.makeText(GooglePlayServicesActivity.this, "Congratulations on hitting your goal! +20HP", Toast.LENGTH_LONG).show();
+                    Button butt = (Button) findViewById(R.id.refreshButton);
+                    butt.setEnabled(false);
+                    addHP();
+                }
+            }
+        });
+        Log.v(TAG, "updaaate");
     }
 }
